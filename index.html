@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>珠三角高标仓调研及盐田后方陆域建设建议</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #060b14;
+  color: #c8d6e5;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Variables ===== */
+:root {
+  --bg-deep: #060b14;
+  --bg-base: #0a101f;
+  --bg-card: #111827;
+  --bg-card-hover: #161e30;
+  --bg-alt: #0d1525;
+  --border: #1e2a3a;
+  --border-glow: #0a2a40;
+  --primary: #c8d6e5;
+  --primary-light: #93aed4;
+  --accent: #00d4ff;
+  --accent-dim: #0098b8;
+  --accent-glow: rgba(0, 212, 255, 0.25);
+  --gold: #f0a500;
+  --gold-glow: rgba(240, 165, 0, 0.25);
+  --green: #00e676;
+  --green-glow: rgba(0, 230, 118, 0.2);
+  --red: #ff5252;
+  --red-glow: rgba(255, 82, 82, 0.2);
+  --orange: #ff9100;
+  --orange-glow: rgba(255, 145, 0, 0.2);
+  --purple: #b388ff;
+  --purple-glow: rgba(179, 136, 255, 0.25);
+  --text: #c8d6e5;
+  --text-secondary: #8899b4;
+  --text-muted: #5a6d88;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Global Glow Utility ===== */
+.glow-cyan { box-shadow: 0 0 30px var(--accent-glow), inset 0 0 30px rgba(0,212,255,0.03); }
+.glow-gold { box-shadow: 0 0 30px var(--gold-glow), inset 0 0 30px rgba(240,165,0,0.03); }
+
+/* ===== Hero ===== */
+.hero {
+  background: var(--bg-deep);
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0 90px;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0,212,255,0.06) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(179,136,255,0.04) 0%, transparent 50%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 70%);
+}
+.hero-orb {
+  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15;
+}
+.hero-orb-1 { width: 600px; height: 600px; background: #00d4ff; top: -200px; right: -100px; }
+.hero-orb-2 { width: 400px; height: 400px; background: #b388ff; bottom: -150px; left: -100px; }
+.hero-orb-3 { width: 300px; height: 300px; background: #f0a500; top: 50%; left: 50%; opacity: 0.06; }
+.hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 1; text-align: center; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+  padding: 8px 24px; border-radius: 50px; font-size: .92rem; letter-spacing: 2px;
+  color: var(--accent); margin-bottom: 32px; text-transform: uppercase;
+}
+.hero-badge::before { content: '◆'; font-size: .5rem; animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero h1 {
+  font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #90d5ff 40%, #00d4ff 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero h2 {
+  font-size: 1.8rem; font-weight: 400; color: #b388ff; margin-bottom: 32px; letter-spacing: 1px;
+}
+.hero-line {
+  width: 100px; height: 3px; margin: 0 auto 28px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); border-radius: 2px;
+}
+.hero-meta { color: rgba(200,214,229,0.55); font-size: 1rem; }
+.hero-meta span { margin: 0 14px; }
+
+/* ===== Nav ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,11,20,0.85); backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0,212,255,0.1);
+  padding: 0 40px; overflow-x: auto; white-space: nowrap;
+}
+.nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0; }
+.nav a {
+  display: inline-block; padding: 16px 22px; font-size: .93rem;
+  color: rgba(200,214,229,0.6); border-bottom: 2px solid transparent; cursor: pointer;
+  transition: all .25s; position: relative;
+}
+.nav a:hover { color: var(--accent); }
+.nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ===== Container ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+/* ===== Section ===== */
+.section { padding: 80px 0; position: relative; }
+.section-alt { background: var(--bg-alt); }
+.section-header { margin-bottom: 48px; }
+.section-num {
+  display: inline-block; font-size: .82rem; font-weight: 700; letter-spacing: 4px;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 8px;
+  font-family: "SF Mono", "Consolas", "Monaco", monospace;
+}
+.section-title { font-size: 2rem; font-weight: 700; color: #e8f0f8; margin-bottom: 8px; }
+.section-subtitle { font-size: 1.05rem; color: var(--text-muted); }
+.divider { width: 50px; height: 3px; background: var(--accent); border-radius: 2px; margin: 16px 0; }
+
+/* ===== Cards Grid ===== */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.card {
+  background: var(--bg-card); border-radius: var(--radius); padding: 28px;
+  border: 1px solid var(--border); transition: all var(--transition); position: relative;
+  overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; inset: 0; border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(0,212,255,0.02), transparent);
+  pointer-events: none;
+}
+.card:hover {
+  border-color: rgba(0,212,255,0.25); box-shadow: var(--shadow-md), 0 0 30px rgba(0,212,255,0.04);
+  transform: translateY(-2px);
+}
+.card-icon { font-size: 2rem; margin-bottom: 14px; filter: drop-shadow(0 0 8px rgba(0,212,255,0.3)); }
+.card-title { font-size: 1.18rem; font-weight: 700; color: #e8f0f8; margin-bottom: 8px; }
+.card-value { font-size: 2.2rem; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+.card-note { font-size: .88rem; color: var(--text-muted); }
+.card-accent { border-left: 3px solid var(--accent); }
+.card-gold { border-left: 3px solid var(--gold); }
+.card-red { border-left: 3px solid var(--red); }
+
+/* ===== Metric Bar ===== */
+.metrics-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px; margin-bottom: 36px;
+}
+.metric {
+  background: var(--bg-card); border-radius: var(--radius); padding: 24px 18px;
+  text-align: center; border: 1px solid var(--border); position: relative;
+  overflow: hidden; transition: all var(--transition);
+}
+.metric::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent), var(--accent-dim));
+}
+.metric:hover { border-color: rgba(0,212,255,0.3); box-shadow: 0 0 25px rgba(0,212,255,0.06); }
+.metric-label { font-size: .83rem; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+.metric-value { font-size: 1.9rem; font-weight: 800; color: var(--accent); line-height: 1.2; }
+.metric-note { font-size: .8rem; color: var(--text-secondary); margin-top: 4px; }
+
+/* ===== Project Cards ===== */
+.project-card {
+  background: var(--bg-card); border-radius: var(--radius); padding: 30px 34px;
+  border: 1px solid var(--border); margin-bottom: 18px;
+  display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: start;
+  transition: all var(--transition);
+}
+.project-card:hover { border-color: rgba(0,212,255,0.2); box-shadow: 0 0 30px rgba(0,212,255,0.04); }
+.project-city {
+  font-size: .82rem; color: var(--accent); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;
+}
+.project-name { font-size: 1.25rem; font-weight: 700; color: #e8f0f8; margin-bottom: 14px; }
+.project-details { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px 18px; }
+.project-item { font-size: .92rem; line-height: 1.65; color: var(--text-secondary); }
+.project-item strong { color: var(--primary-light); font-size: .82rem; display: block; margin-bottom: 2px; }
+
+/* ===== Table ===== */
+.table-wrap { overflow-x: auto; margin: 18px 0; border-radius: var(--radius); border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; line-height: 1.65; }
+thead { background: linear-gradient(135deg, #0d1a2d, #152238); }
+th {
+  padding: 14px 16px; text-align: center; font-weight: 600;
+  font-size: .86rem; white-space: nowrap; color: var(--accent);
+  border-bottom: 2px solid rgba(0,212,255,0.15);
+}
+td { padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text-secondary); }
+tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+tr:hover td { background: rgba(0,212,255,0.04); }
+td:first-child { text-align: left; font-weight: 600; color: var(--primary-light); }
+
+/* ===== Highlight Box ===== */
+.highlight-box {
+  background: rgba(240,165,0,0.06); border: 1px solid rgba(240,165,0,0.2);
+  border-left: 3px solid var(--gold); border-radius: var(--radius-sm);
+  padding: 20px 24px; margin: 24px 0; font-size: .98rem; color: #e8c876;
+}
+.highlight-box strong { color: var(--gold); }
+.highlight-red {
+  background: rgba(255,82,82,0.06); border: 1px solid rgba(255,82,82,0.2);
+  border-left: 3px solid var(--red); border-radius: var(--radius-sm);
+  padding: 20px 24px; margin: 24px 0; font-size: .98rem; color: #f5a0a0;
+}
+.highlight-blue {
+  background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15);
+  border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
+  padding: 20px 24px; margin: 24px 0; font-size: .98rem;
+}
+/* ===== Two Column ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ===== Three Column ===== */
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 768px) { .three-col { grid-template-columns: 1fr; } }
+
+/* ===== Smart System Grid ===== */
+.smart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.smart-card {
+  background: var(--bg-card); border-radius: var(--radius); padding: 24px;
+  border: 1px solid var(--border); border-top: 3px solid var(--accent);
+  transition: all var(--transition);
+}
+.smart-card:hover { border-color: rgba(0,212,255,0.3); box-shadow: 0 0 25px rgba(0,212,255,0.06); }
+.smart-card h4 { font-size: 1rem; color: #e8f0f8; margin-bottom: 10px; }
+.smart-card p { font-size: .88rem; color: var(--text-secondary); line-height: 1.65; }
+@media (max-width: 768px) { .smart-grid { grid-template-columns: 1fr; } }
+
+/* ===== Phase Cards ===== */
+.phase-block { margin-bottom: 28px; }
+.phase-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.phase-num {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  color: #fff; font-weight: 800; font-size: 1.15rem;
+  background: var(--accent-dim);
+}
+.phase-num.green { background: var(--green); box-shadow: 0 0 15px var(--green-glow); }
+.phase-num.orange { background: var(--orange); box-shadow: 0 0 15px var(--orange-glow); }
+.phase-title { font-size: 1.22rem; font-weight: 700; color: #e8f0f8; }
+.phase-sub { font-size: .88rem; color: var(--text-muted); margin-left: 8px; }
+.phase-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.phase-detail ul { list-style: none; padding: 0; }
+.phase-detail li { font-size: .9rem; padding: 5px 0; color: var(--text-secondary); }
+.phase-detail li::before { content: '▸'; color: var(--accent); margin-right: 8px; }
+
+/* ===== Tag ===== */
+.tag {
+  display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: .78rem;
+  font-weight: 600; margin: 3px 5px;
+}
+.tag-blue { background: rgba(0,212,255,0.12); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+.tag-green { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.2); }
+.tag-orange { background: rgba(255,145,0,0.1); color: var(--orange); border: 1px solid rgba(255,145,0,0.2); }
+.tag-red { background: rgba(255,82,82,0.1); color: var(--red); border: 1px solid rgba(255,82,82,0.2); }
+.tag-purple { background: rgba(179,136,255,0.1); color: var(--purple); border: 1px solid rgba(179,136,255,0.2); }
+
+/* ===== Cost Tiers Grid ===== */
+.tier-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+@media (max-width: 1000px) { .tier-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .tier-grid { grid-template-columns: 1fr; } }
+
+/* ===== Cost Tiers ===== */
+.tier-card {
+  background: var(--bg-card); border-radius: var(--radius); padding: 24px;
+  border: 1px solid var(--border); position: relative; transition: all var(--transition);
+}
+.tier-card:hover { transform: translateY(-3px); }
+.tier-card.premium { border-top: 3px solid var(--purple); }
+.tier-card.premium:hover { border-color: rgba(179,136,255,0.3); box-shadow: 0 0 30px var(--purple-glow); }
+.tier-card.mid { border-top: 3px solid var(--accent); }
+.tier-card.mid:hover { border-color: rgba(0,212,255,0.3); box-shadow: 0 0 30px var(--accent-glow); }
+.tier-card.economy { border-top: 3px solid var(--green); }
+.tier-card.economy:hover { border-color: rgba(0,230,118,0.3); box-shadow: 0 0 30px var(--green-glow); }
+.tier-card.budget { border-top: 3px solid var(--orange); }
+.tier-card.budget:hover { border-color: rgba(255,145,0,0.3); box-shadow: 0 0 30px var(--orange-glow); }
+.tier-badge {
+  position: absolute; top: -12px; right: 18px;
+  padding: 5px 16px; border-radius: 50px; font-size: .78rem; font-weight: 700; color: #000;
+  letter-spacing: 1px;
+}
+.tier-badge.purple { background: var(--purple); }
+.tier-badge.blue { background: var(--accent); }
+.tier-badge.green { background: var(--green); }
+.tier-badge.orange { background: var(--orange); }
+.tier-card h3 { font-size: 1.15rem; color: #e8f0f8; margin-bottom: 16px; }
+.tier-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: .9rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tier-item:last-child { border-bottom: none; }
+.tier-label { color: var(--text-muted); }
+.tier-val { font-weight: 600; color: var(--text-secondary); text-align: right; }
+
+/* ===== Footer ===== */
+.footer {
+  background: var(--bg-deep); text-align: center;
+  padding: 64px 40px; font-size: .93rem; border-top: 1px solid var(--border);
+  position: relative;
+}
+.footer::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 200px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent);
+}
+.footer h3 { background: linear-gradient(135deg, #90d5ff, #b388ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2rem; margin-bottom: 8px; }
+.footer-line { width: 60px; height: 2px; background: var(--gold); margin: 16px auto; border-radius: 1px; }
+.footer p { color: var(--text-muted); }
+
+/* ===== Section divider accents ===== */
+.section-divider {
+  width: 60px; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin: 0 auto 48px; opacity: 0.4;
+}
+
+/* ===== Animated scan line effect (hero only) ===== */
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(800px); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) { .project-card { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .smart-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .smart-grid { grid-template-columns: 1fr; } }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2rem; }
+  .hero h2 { font-size: 1.3rem; }
+  .section-title { font-size: 1.5rem; }
+  .project-card { grid-template-columns: 1fr; }
+  .metrics-row { grid-template-columns: repeat(2, 1fr); }
+  .nav a { padding: 12px 14px; font-size: .82rem; }
+  .two-col { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr; }
+  .smart-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Data-vis bar chart (for customer percentages) ===== */
+.bar-row { display: flex; align-items: center; margin: 8px 0; }
+.bar-label { width: 65px; font-weight: 700; font-size: .92rem; flex-shrink: 0; }
+.bar-track { flex: 1; height: 22px; background: rgba(255,255,255,0.03); border-radius: 4px; overflow: hidden; margin: 0 10px; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; position: relative; }
+.bar-fill::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); }
+.bar-name { font-size: .85rem; color: var(--text-muted); flex-shrink: 0; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">◆ 深度调研报告 &nbsp;|&nbsp; 2026年06月</div>
+    <h1>珠三角地区高标仓建筑项目调研</h1>
+    <h2>及盐田后方陆域片区高标仓建设建议</h2>
+    <div class="hero-line"></div>
+    <div class="hero-meta">
+      <span>📍 深圳 · 广州 · 东莞 · 惠州 · 佛山</span>
+      <span>📊 9个标杆项目 + 3期开发方案</span>
+      <span>⚡ 4档造价 + 详细运营策略</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== NAV ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#s1">01 背景</a>
+    <a href="#s2">02 市场</a>
+    <a href="#s3">03 项目</a>
+    <a href="#s4">04 技术</a>
+    <a href="#s5">05 现状</a>
+    <a href="#s6">06 分期</a>
+    <a href="#s7">07 建议</a>
+    <a href="#s8">08 造价</a>
+    <a href="#s9">09 运营</a>
+    <a href="#s10">10 风险</a>
+  </div>
+</nav>
+
+<!-- ===== SECTION 1 ===== -->
+<section class="section" id="s1">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 01</div>
+      <h2 class="section-title">调研背景与方法</h2>
+      <p class="section-subtitle">Research Background & Methodology</p>
+      <div class="divider"></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:1.3rem;color:#e8f0f8;margin-bottom:18px;">🔍 调研背景</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="padding:10px 0;border-bottom:1px solid var(--border);font-size:.98rem;color:var(--text-secondary);">
+            <strong style="color:var(--accent);">▸</strong> 盐田港作为全球单体最大集装箱港，年吞吐量<strong style="color:#e8f0f8;">超1400万标箱</strong>，后方陆域仓储配套需求持续增长
+          </li>
+          <li style="padding:10px 0;border-bottom:1px solid var(--border);font-size:.98rem;color:var(--text-secondary);">
+            <strong style="color:var(--accent);">▸</strong> 跨境电商、冷链物流、供应链金融等新业态快速发展，对高标仓储设施提出更高要求
+          </li>
+          <li style="padding:10px 0;border-bottom:1px solid var(--border);font-size:.98rem;color:var(--text-secondary);">
+            <strong style="color:var(--accent);">▸</strong> 盐田后方陆域法定图则规划多个W类物流仓储用地，总用地约<strong style="color:#e8f0f8;">17.4万㎡</strong>，建面可达<strong style="color:#e8f0f8;">55万㎡</strong>
+          </li>
+          <li style="padding:10px 0;font-size:.98rem;color:var(--text-secondary);">
+            <strong style="color:var(--accent);">▸</strong> 深国际、万科万纬、普洛斯等头部企业已在珠三角投入大量高标仓项目
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:1.3rem;color:#e8f0f8;margin-bottom:18px;">📊 调研范围与方法</h3>
+        <ul style="list-style:none;padding:0;">
+          <li style="padding:8px 0;font-size:.98rem;color:var(--text-secondary);"><span class="tag tag-blue">时间</span> 2023-2026年新建或建成的珠三角高标仓项目</li>
+          <li style="padding:8px 0;font-size:.98rem;color:var(--text-secondary);"><span class="tag tag-green">地域</span> 深圳、广州、东莞、惠州、佛山、珠海等核心城市</li>
+          <li style="padding:8px 0;font-size:.98rem;color:var(--text-secondary);"><span class="tag tag-purple">数据</span> 用地面积、建筑面积、仓储类型、造价、租金等</li>
+          <li style="padding:8px 0;font-size:.98rem;color:var(--text-secondary);"><span class="tag tag-orange">来源</span> 政府公告、企业年报、行业研究报告</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2 ===== -->
+<section class="section section-alt" id="s2">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 02</div>
+      <h2 class="section-title">珠三角高标仓市场概况</h2>
+      <p class="section-subtitle">华南区空置率全国最低(10.6%)，平均租金全国最高(37.7元/㎡·月)</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric"><div class="metric-label">华南区空置率</div><div class="metric-value">10.6%</div><div class="metric-note">全国最低</div></div>
+      <div class="metric"><div class="metric-label">华南区平均租金</div><div class="metric-value">37.7<span style="font-size:.82rem"> 元/㎡·月</span></div><div class="metric-note">全国最高</div></div>
+      <div class="metric"><div class="metric-label">深圳高标仓存量</div><div class="metric-value">82.6<span style="font-size:.82rem"> 万㎡</span></div><div class="metric-note">2025H1统计</div></div>
+      <div class="metric"><div class="metric-label">深圳月租金</div><div class="metric-value">48.5<span style="font-size:.82rem"> 元/㎡·月</span></div><div class="metric-note">2025Q3 · 环比-0.7%</div></div>
+      <div class="metric"><div class="metric-label">东莞月租金</div><div class="metric-value">48.2<span style="font-size:.82rem"> 元/㎡·月</span></div><div class="metric-note">2025Q3 · 环比-1.6%</div></div>
+      <div class="metric"><div class="metric-label">全国高标仓总面积</div><div class="metric-value">1.77<span style="font-size:.82rem"> 亿㎡</span></div><div class="metric-note">2025Q2</div></div>
+    </div>
+
+    <div class="highlight-blue">
+      <strong style="color:var(--accent);">📈 市场格局洞察</strong><br>
+      • 珠三角高标仓存量的八成集中在广佛莞惠，深圳因土地稀缺存量有限<br>
+      • 跨境电商是珠三角高标仓最大需求驱动力，2023Q3单季新租面积达83万㎡（广州）<br>
+      • 2025年华南区高标仓市场保持低空置率(10.6%)与高租金(37.7元/㎡·月)双优格局<br>
+      • 预计2025Q4-2026珠三角新增供应居全国首位，但盐田片区供应极度稀缺<br>
+      • 深圳高标仓租金虽高位回调，但盐田保税仓因政策壁垒优势，租金韧性更强
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3 ===== -->
+<section class="section" id="s3">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 03</div>
+      <h2 class="section-title">重点高标仓项目详析</h2>
+      <p class="section-subtitle">珠三角9个标杆项目 + 盐田拟建项目全景对比</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="project-card"><div><div class="project-city">深圳盐田</div><div class="project-name">深国际盐田智慧物流港</div><span class="tag tag-blue">保税仓</span> <span class="tag tag-green">运营中</span></div><div class="project-details"><div class="project-item"><strong>用地面积</strong>3.16万㎡</div><div class="project-item"><strong>建筑面积</strong>12.65万㎡</div><div class="project-item"><strong>仓储类型</strong>6层立体仓 · 保税+冷链+跨境电商</div><div class="project-item"><strong>楼板荷载</strong>3吨/㎡</div><div class="project-item"><strong>单方建安成本（不含地价）</strong>8,696元/㎡（建安投资11亿）</div><div class="project-item"><strong>柱网/高度</strong>约12m / 约36m(6层)</div><div class="project-item"><strong>智能化</strong>智慧集拼 · 食品冷链 · 跨境展示交易</div><div class="project-item"><strong>运营思路</strong>四大中心：集拼分拨/冷链/跨境展示/电商运营</div><div class="project-item"><strong>月租金</strong>约38元/㎡·月(保税)</div><div class="project-item"><strong>租赁状态</strong>运营初期</div></div></div>
+
+    <div class="project-card"><div><div class="project-city">广州增城</div><div class="project-name">广州东部公铁联运枢纽高标仓</div><span class="tag tag-orange">建设中</span></div><div class="project-details"><div class="project-item"><strong>用地面积</strong>25.6万㎡</div><div class="project-item"><strong>建筑面积</strong>66.6万㎡</div><div class="project-item"><strong>仓储类型</strong>坡道式高层干仓 · 2栋5层+7栋4层</div><div class="project-item"><strong>楼板荷载</strong>4吨/㎡</div><div class="project-item"><strong>单方建安成本（不含地价）</strong>约5,000-6,000元/㎡</div><div class="project-item"><strong>柱网/高度</strong>12m标准柱跨 / 11.4m层高</div><div class="project-item"><strong>智能化</strong>6层货架密集存储 · 存储量=普通仓2-3倍</div><div class="project-item"><strong>运营思路</strong>大湾区产品配送中心 · 服务新能源/电子/半导体/跨境电商</div><div class="project-item"><strong>月租金</strong>约30-35元/㎡·月</div><div class="project-item"><strong>租赁状态</strong>建设中</div></div></div>
+
+    <div class="project-card"><div><div class="project-city">广州南沙</div><div class="project-name">国际分拨中心9号仓一期</div><span class="tag tag-green">2026建成</span></div><div class="project-details"><div class="project-item"><strong>用地面积</strong>5.3万㎡</div><div class="project-item"><strong>建筑面积</strong>19.07万㎡</div><div class="project-item"><strong>仓储类型</strong>五层盘道式 · 高标准综合物流仓</div><div class="project-item"><strong>楼板荷载</strong>3吨/㎡</div><div class="project-item"><strong>单方建安成本（不含地价）</strong>5,244元/㎡（建安投资近10亿）</div><div class="project-item"><strong>柱网/高度</strong>约12m / 五层</div><div class="project-item"><strong>智能化</strong>BIM技术管理 · BIM+精细化管控</div><div class="project-item"><strong>运营思路</strong>进出口物流/国际中转集拼/跨境电商/区域分拨</div><div class="project-item"><strong>月租金</strong>约32-38元/㎡·月</div><div class="project-item"><strong>租赁状态</strong>2026年中建成</div></div></div>
+
+    <div class="project-card"><div><div class="project-city">深圳宝安</div><div class="project-name">深国际西部公路枢纽物流园</div><span class="tag tag-green">2025投产</span></div><div class="project-details"><div class="project-item"><strong>用地面积</strong>7.5万㎡</div><div class="project-item"><strong>建筑面积</strong>19.5万㎡</div><div class="project-item"><strong>仓储类型</strong>智能物流中心+智慧云仓+冷链</div><div class="project-item"><strong>楼板荷载</strong>3吨/㎡</div><div class="project-item"><strong>单方建安成本（不含地价）</strong>约5,100元/㎡（建安投资约10亿）</div><div class="project-item"><strong>柱网/高度</strong>约12m / 4-5层盘道仓</div><div class="project-item"><strong>智能化</strong>干线智能仓储 · 城际物流+城配中心</div><div class="project-item"><strong>运营思路</strong>公路枢纽多式联运 · 集散分拨中心</div><div class="project-item"><strong>月租金</strong>约42-48元/㎡·月</div><div class="project-item"><strong>租赁状态</strong>2025年投产</div></div></div>
+
+    <div class="project-card"><div><div class="project-city">佛山顺德</div><div class="project-name">深国际顺德智慧物流产业园</div><span class="tag tag-green">2025运营</span></div><div class="project-details"><div class="project-item"><strong>用地面积</strong>约20万㎡</div><div class="project-item"><strong>建筑面积</strong>33.66万㎡</div><div class="project-item"><strong>仓储类型</strong>5栋三层盘道库+1栋双层仓</div><div class="project-item"><strong>楼板荷载</strong>3.5吨/㎡</div><div class="project-item"><strong>单方建安成本（不含地价）</strong>约8,900元/㎡（建安投资30亿）</div><div class="project-item"><strong>柱网/高度</strong>12m×12m / 三层盘道+双层</div><div class="project-item"><strong>智能化</strong>智慧云仓+AGV · 数字化运营平台</div><div class="project-item"><strong>运营思路</strong>智慧仓储示范项目 · 电商+制造业供应链</div><div class="project-item"><strong>月租金</strong>约28-33元/㎡·月</div><div class="project-item"><strong>租赁状态</strong>2025年运营</div></div></div>
+
+    <div class="project-card"><div><div class="project-city">深圳盐田</div><div class="project-name">盐田港现代物流中心</div><span class="tag tag-blue">保税仓</span> <span class="tag tag-green">运营中</span></div><div class="project-details"><div class="project-item"><strong>用地面积</strong>—</div><div class="project-item"><strong>建筑面积</strong>约50万㎡</div><div class="project-item"><strong>仓储类型</strong>四层盘道+12m高层仓 · 保税+恒温</div><div class="project-item"><strong>楼板荷载</strong>3.5吨/㎡</div><div class="project-item"><strong>单方建安成本（不含地价）</strong>—（存量项目）</div><div class="project-item"><strong>柱网/高度</strong>约12m / 四层盘道式</div><div class="project-item"><strong>智能化</strong>保税信息系统 · 恒温恒湿监控</div><div class="project-item"><strong>运营思路</strong>保税仓储+出口监管 · 进口分拨+转关</div><div class="project-item"><strong>月租金</strong>约35-40元/㎡·月</div><div class="project-item"><strong>租赁状态</strong>运营中(高出租率)</div></div></div>
+
+    <div style="margin-top:36px;">
+      <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">📋 更多参考项目一览</h3>
+      <div class="table-wrap">
+        <table><thead><tr><th>编号</th><th>城市</th><th>项目名称</th><th>用地面积</th><th>建筑面积</th><th>仓储类型</th><th>投资/状态</th></tr></thead><tbody>
+          <tr><td>7</td><td>惠州</td><td style="text-align:left;">惠州综合物流园</td><td>10.46万㎡</td><td>21.36万㎡</td><td>5栋丙类高标仓 · 坡道式多层立体</td><td>建设中</td></tr>
+          <tr><td>8</td><td>广州增城</td><td style="text-align:left;">增城外综服务产业园</td><td>—</td><td>约9.8万㎡</td><td>2栋高标准智能仓+办公楼</td><td>2027竣工</td></tr>
+          <tr><td>9</td><td>深圳盐田</td><td style="text-align:left;">盐田J308-0318地块项目</td><td>2.96万㎡</td><td>13.47万㎡</td><td>国际供应链智慧服务综合体</td><td>地价1.53亿/规划中</td></tr>
+          <tr style="background:rgba(240,165,0,0.06);"><td style="color:var(--gold);">★</td><td>深圳盐田</td><td style="text-align:left;font-weight:700;color:var(--gold);">盐田后方陆域拟建项目(本报告)</td><td style="color:var(--gold);">17.4万㎡</td><td style="color:var(--gold);">55万㎡(规划)</td><td>非保税高标仓+冷链综合园区</td><td>规划建议中</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4 ===== -->
+<section class="section section-alt" id="s4">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 04</div>
+      <h2 class="section-title">高标仓技术标准体系 &amp; 智能化配置</h2>
+      <p class="section-subtitle">11项核心技术参数对标 + 9大智能化系统模块</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="table-wrap"><table><thead><tr><th>技术指标</th><th>行业标准值</th><th>珠三角项目常见值</th><th>盐田适用建议</th></tr></thead><tbody>
+      <tr><td>楼板荷载</td><td>3吨/㎡</td><td>3-4吨/㎡</td><td style="color:var(--accent);">首层4吨/㎡，二层及以上3吨/㎡</td></tr>
+      <tr><td>柱网跨度</td><td>8-12m</td><td>12m（标准）</td><td>12m × 12m 标准柱网</td></tr>
+      <tr><td>层高（净高）</td><td>≥9m</td><td>9-12m</td><td style="color:var(--accent);">11-12m（适配高位货架）</td></tr>
+      <tr><td>卸货平台高度</td><td>1.3-1.35m</td><td>1.3m + 雨棚</td><td>1.3m + 6m深雨棚</td></tr>
+      <tr><td>消防标准</td><td>丙二类+ESFR</td><td>丙二类+ESFR喷淋</td><td style="color:var(--accent);">丙二类+ESFR+烟感+气体灭火</td></tr>
+      <tr><td>地面平整度</td><td>≤3mm/3m</td><td>激光整平</td><td>激光整平（AGV适用）</td></tr>
+      <tr><td>电力配置</td><td>双回路供电</td><td>双回路+柴发</td><td style="color:var(--accent);">双回路+柴油发电机+叉车充电站</td></tr>
+      <tr><td>容积率</td><td>1.5-3.0</td><td>2.5-4.5</td><td>3.5-4.5（多层盘道式）</td></tr>
+      <tr><td>绿色认证</td><td>国标绿建</td><td>LEED+绿建星级</td><td style="color:var(--accent);">绿建二星/LEED Silver</td></tr>
+      <tr><td>智能化系统</td><td>WMS+监控</td><td>WMS+RFID+AGV准备</td><td style="color:var(--accent);">全套智能:WMS/WCS/RFID/AGV/IoT</td></tr>
+    </tbody></table></div>
+
+    <h3 style="font-size:1.25rem;color:#e8f0f8;margin:40px 0 18px;">🤖 9大智能化系统模块</h3>
+    <div class="smart-grid">
+      <div class="smart-card"><h4>📦 仓储管理系统(WMS/WCS)</h4><p>入库、上架、拣选、出库、盘点全流程数字化管理，多货主管理，批次追踪</p></div>
+      <div class="smart-card"><h4>📡 射频识别(RFID)</h4><p>货物实时追踪与精准管理，出入库自动扫描，库存准确率 &gt;99.5%</p></div>
+      <div class="smart-card"><h4>🤖 自动导引车(AGV/AMR)</h4><p>自动搬运机器人，替代人工搬运，效率提升300%，人力成本降低40%</p></div>
+      <div class="smart-card"><h4>🏗️ 自动化立体仓库(AS/RS)</h4><p>堆垛机+穿梭车密集存储系统，空间利用率是普通仓3-5倍</p></div>
+      <div class="smart-card"><h4>🛡️ 智能安防系统</h4><p>AI视频监控(360°+行为识别)、电子围栏、人脸识别门禁、烟感联动</p></div>
+      <div class="smart-card"><h4>🌐 物联网(IoT)平台</h4><p>温湿度传感器、能耗监测、设备状态监控、预测性维护</p></div>
+      <div class="smart-card"><h4>🖥️ 数字孪生(Digital Twin)</h4><p>3D可视化仓库管理，实时映射物理仓库状态</p></div>
+      <div class="smart-card"><h4>☀️ 绿色能源系统</h4><p>屋顶光伏(BIPV)+储能+智能照明+雨水回收，降低运营能耗30%+</p></div>
+      <div class="smart-card"><h4>🔥 消防联动系统</h4><p>ESFR早期抑制喷淋+烟感+气体灭火(电气室)+消防物联网</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5 ===== -->
+<section class="section" id="s5">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 05</div>
+      <h2 class="section-title">盐田后方陆域现状分析</h2>
+      <p class="section-subtitle">总用地17.4万㎡ · 规划建面55万㎡ · 非保税高标仓定位</p>
+      <div class="divider"></div>
+    </div>
+    <div class="two-col">
+      <div class="card card-accent"><div class="card-icon">📍</div><h3 class="card-title">区位优势</h3><ul style="list-style:none;padding:0;font-size:.94rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 紧邻盐田港，年吞吐量1400万+标箱，东港区扩能将增300万标箱</li><li style="padding:5px 0;">▸ 地铁8号线贯穿，30分钟到罗湖中心区</li><li style="padding:5px 0;">▸ 盐排高速+盐坝高速双接口，1小时覆盖深圳全境</li><li style="padding:5px 0;">▸ 综保区政策赋能（本次定位非保税，差异化竞争）</li></ul></div>
+      <div class="card card-accent"><div class="card-icon">🏗️</div><h3 class="card-title">用地储备</h3><ul style="list-style:none;padding:0;font-size:.94rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 法定图则规划多个W类物流仓储用地，合计约<strong style="color:#e8f0f8;">17.4万㎡</strong></li><li style="padding:5px 0;">▸ 规划容积率3.0-4.5，计容建面可达约<strong style="color:#e8f0f8;">55万㎡</strong></li><li style="padding:5px 0;">▸ 已有J308-0318地块(2.96万㎡/容积率4.5)出让先例</li><li style="padding:5px 0;">▸ 01-10地块已启动方案设计招标</li></ul></div>
+      <div class="card card-red"><div class="card-icon">⚔️</div><h3 class="card-title">竞争格局</h3><ul style="list-style:none;padding:0;font-size:.94rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 现有深国际(12.65万㎡)及盐田港现代物流中心(50万㎡)——<strong style="color:var(--red);">均为保税仓</strong></li><li style="padding:5px 0;">▸ <strong style="color:var(--red);">非保税高标仓供给严重不足</strong>——仓储需求外溢至龙岗、坪山</li><li style="padding:5px 0;">▸ 后方陆域存量旧仓楼板荷载≤1.5吨/㎡，亟需升级</li><li style="padding:5px 0;">▸ 本项目定位非保税，<strong style="color:var(--accent);">填补市场空白</strong></li></ul></div>
+      <div class="card card-gold"><div class="card-icon">🚀</div><h3 class="card-title">市场机遇</h3><ul style="list-style:none;padding:0;font-size:.94rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 深圳2024年跨境电商进出口额突破<strong style="color:var(--gold);">8000亿</strong></li><li style="padding:5px 0;">▸ 冷链缺口巨大，进口生鲜/冻品/医药仓储需求年增25%+</li><li style="padding:5px 0;">▸ 新能源/电子元器件/精密设备等高端制造急需VMI服务</li><li style="padding:5px 0;">▸ 港口后方价值洼地，租金低于前海/宝安，增值空间大</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6 ===== -->
+<section class="section section-alt" id="s6">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 06</div>
+      <h2 class="section-title">分期开发建议</h2>
+      <p class="section-subtitle">总用地17.4万㎡ · 总建面55万㎡ · 三期滚动开发</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="table-wrap"><table><thead><tr><th>分期</th><th>用地面积</th><th>建筑面积</th><th>建设内容</th><th>建安投资估算<br>（不含地价）</th><th>建设周期</th></tr></thead><tbody>
+      <tr style="background:rgba(0,230,118,0.04);"><td style="font-weight:700;">一期<br><span style="color:var(--green);">启动期</span></td><td>6.5万㎡<br>(37%)</td><td>20万㎡</td><td style="text-align:left;">4栋4-5层坡道仓 + 冷链中心 + 综合服务楼</td><td>4.0-5.0亿<br><span style="font-size:.82rem;color:var(--text-muted);">建安成本2,000-2,500元/㎡</span></td><td>2027Q1-2029Q2<br>(约2.5年)</td></tr>
+      <tr style="background:rgba(255,145,0,0.04);"><td style="font-weight:700;">二期<br><span style="color:var(--orange);">扩展期</span></td><td>5.8万㎡<br>(33%)</td><td>19万㎡</td><td style="text-align:left;">3栋4-5层坡道仓 + 智能分拨中心 + 员工公寓</td><td>3.8-4.8亿<br><span style="font-size:.82rem;color:var(--text-muted);">建安成本2,000-2,500元/㎡</span></td><td>2028Q3-2030Q4<br>(约2.5年)</td></tr>
+      <tr><td style="font-weight:700;">三期<br><span style="color:var(--accent);">完善期</span></td><td>5.1万㎡<br>(30%)</td><td>16万㎡</td><td style="text-align:left;">3栋5层坡道仓 + 跨境电商专用仓 + 光伏站</td><td>3.2-4.0亿<br><span style="font-size:.82rem;color:var(--text-muted);">建安成本2,000-2,500元/㎡</span></td><td>2029Q3-2032Q2<br>(约3年)</td></tr>
+    </tbody></table></div>
+
+    <div class="three-col" style="margin-top:28px;">
+      <div class="phase-block"><div class="phase-header"><div class="phase-num green">1</div><div><div class="phase-title">一期 · 启动期</div><div class="phase-sub">优先保障现金流</div></div></div><ul style="list-style:none;padding:0;font-size:.92rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 地块A1(2.5万㎡)：2栋坡道仓，建面8万㎡</li><li style="padding:5px 0;">▸ 地块A2(2.2万㎡)：1栋坡道仓+冷链中心，建面7万㎡</li><li style="padding:5px 0;">▸ 地块A3(1.8万㎡)：1栋坡道仓+综合服务楼，建面5万㎡</li><li style="padding:5px 0;color:var(--green);">▸ 策略：先建需求最旺的干仓+冷链，快速形成出租收入</li></ul></div>
+      <div class="phase-block"><div class="phase-header"><div class="phase-num orange">2</div><div><div class="phase-title">二期 · 扩展期</div><div class="phase-sub">规模效应</div></div></div><ul style="list-style:none;padding:0;font-size:.92rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 地块B1(3.0万㎡)：2栋坡道仓，建面10万㎡</li><li style="padding:5px 0;">▸ 地块B2(2.8万㎡)：1栋坡道仓+智能分拨中心，建面9万㎡</li><li style="padding:5px 0;color:var(--orange);">▸ 策略：利用一期客户口碑+市场验证数据，吸引大面积租户</li></ul></div>
+      <div class="phase-block"><div class="phase-header"><div class="phase-num">3</div><div><div class="phase-title">三期 · 完善期</div><div class="phase-sub">高端化升级</div></div></div><ul style="list-style:none;padding:0;font-size:.92rem;color:var(--text-secondary);"><li style="padding:5px 0;">▸ 地块C1(2.7万㎡)：2栋5层坡道仓，建面8.5万㎡</li><li style="padding:5px 0;">▸ 地块C2(2.4万㎡)：1栋坡道仓+光伏站，建面7.5万㎡</li><li style="padding:5px 0;color:var(--accent);">▸ 策略：提升智能化等级+绿色能源，吸引ESG敏感跨国企业</li></ul></div>
+    </div>
+
+    <div class="highlight-blue">
+      <strong style="color:var(--accent);">💰 投资与回报节奏</strong><br>
+      • 一期(2027-2029投入) → 2029Q3开始产生租金，稳定年收入约7,200万<br>
+      • 二期(2028-2031投入) → 2031Q1产生租金，累计稳定年收入约1.4亿<br>
+      • 三期(2029-2032投入) → 全部建成后稳定年收入约<strong style="color:var(--accent);">2.0-2.3亿</strong>（综合租金42元/㎡·月）<br>
+      • 整体静态回收期(含地价)约10-12年，若一期运营达标可考虑<strong style="color:var(--accent);">REITs提前退出</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7 ===== -->
+<section class="section" id="s7">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 07</div>
+      <h2 class="section-title">盐田后方陆域建仓核心建议</h2>
+      <p class="section-subtitle">非保税高标仓 · 分期开发 · 三级智能化</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="table-wrap"><table><thead><tr><th style="width:18%;">决策维度</th><th style="width:42%;">推荐方案</th><th style="width:40%;">核心理由</th></tr></thead><tbody>
+      <tr><td>仓储类型</td><td>非保税高标仓为主 + 冷链仓(20%面积)</td><td>盐田非保税供给极度稀缺 · 冷链填补进口生鲜/医药缺口</td></tr>
+      <tr><td>建筑选型</td><td>坡道式多层立体仓 · 4-5层盘道直达</td><td>容积率≥3.5，集约用地 · 全首层收发货，效率最高</td></tr>
+      <tr><td>楼板荷载</td><td>首层4吨/㎡ · 二层及以上3吨/㎡</td><td>适配重型集装箱货物/密集货架 · 广东省中上水平</td></tr>
+      <tr><td>柱网跨度</td><td>12m × 12m标准柱跨</td><td>行业主流标准 · AGV及高位货架适配性好</td></tr>
+      <tr><td>层高设计</td><td>首层12m/二层及以上11m</td><td>支持6层以上货架 · 空间利用率是普通仓的3倍</td></tr>
+      <tr><td>卸货配置</td><td>1.3m卸货平台+6m深雨棚 · 每1000㎡配1个卸货口</td><td>适应全天候作业需求 · 保障货物安全</td></tr>
+      <tr><td>智能化等级</td><td>Level 3(WMS+RFID+AGV+IoT)</td><td>对标深国际顺德智慧物流园 · 预留全自动化升级接口</td></tr>
+      <tr><td>绿色建筑</td><td>绿建二星+LEED Silver · 屋顶光伏3MW</td><td>年发电300万kWh · 运营成本降低25%+</td></tr>
+      <tr><td>开发模式</td><td>分期开发(三期) · 一期先行启动6.5万㎡</td><td>降低一次性资金压力 · 快速形成现金流支撑后续开发</td></tr>
+    </tbody></table></div>
+
+    <h3 style="font-size:1.25rem;color:#e8f0f8;margin:40px 0 18px;">⚙️ 智能化系统配置方案</h3>
+    <div class="table-wrap"><table><thead><tr><th>系统模块</th><th>标配(必选)</th><th>选配(建议)</th><th>预估投资</th></tr></thead><tbody>
+      <tr><td>仓储管理软件</td><td>WMS(仓储管理系统) · WCS(仓库控制系统)</td><td>TMS(运输管理系统) · OMS(订单管理系统)</td><td>150-300万</td></tr>
+      <tr><td>自动识别</td><td>RFID出入库扫描 · 条码/RFID标签</td><td>UWB室内定位(精度30cm) · 机器视觉识别</td><td>80-150万</td></tr>
+      <tr><td>搬运自动化</td><td>电动叉车(锂电) · AGV预留接口/充电桩</td><td>AGV自动搬运机器人(初期5-10台)</td><td>标配30万 / 选配200-500万</td></tr>
+      <tr><td>安防监控</td><td>AI视频监控全覆盖 · 人脸识别门禁 · 电子围栏</td><td>热成像防火监控 · 车牌识别 · 智能巡检机器人</td><td>120-200万</td></tr>
+      <tr><td>消防联动</td><td>ESFR早期抑制喷淋 · 烟感报警 · 消防泵房+水箱</td><td>气体灭火(电气室) · 消防物联网平台</td><td>200-350万</td></tr>
+      <tr><td>IoT平台</td><td>温湿度监测 · 能耗监测 · 设备状态监控</td><td>数字孪生3D可视化 · 预测性维护 · 碳排放管理</td><td>80-150万</td></tr>
+      <tr><td>绿色能源</td><td>屋顶分布式光伏 · LED智能照明 · 能耗分项计量</td><td>储能系统(削峰填谷) · 雨水回收 · 充电桩40+</td><td>300-600万</td></tr>
+      <tr><td>网络通信</td><td>万兆光纤主干 · WiFi 6全覆盖 · 5G专网预留</td><td>边缘计算节点 · 私有云平台 · 灾备数据中心</td><td>100-200万</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8 ===== -->
+<section class="section section-alt" id="s8">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 08</div>
+      <h2 class="section-title">四档造价方案与经济测算</h2>
+      <p class="section-subtitle">从旗舰级到起步级，覆盖全投资预算区间</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="tier-grid">
+      <div class="tier-card premium"><div class="tier-badge purple">旗舰</div><h3>高端方案</h3><div class="tier-item"><span class="tier-label">单方建安成本（不含地价）</span><span class="tier-val" style="color:var(--purple);font-size:1.35rem;">7,000-8,500<span style="font-size:.82rem;"> 元/㎡</span></span></div><div class="tier-item"><span class="tier-label">计容建面</span><span class="tier-val">26万㎡</span></div><div class="tier-item"><span class="tier-label">建安总投资（不含地价）</span><span class="tier-val">19-23亿</span></div><div class="tier-item"><span class="tier-label">建筑方案</span><span class="tier-val">5层盘道式 · 全混凝土框架</span></div><div class="tier-item"><span class="tier-label">楼板荷载</span><span class="tier-val">首5T / 二三4T / 四五3T</span></div><div class="tier-item"><span class="tier-label">智能化</span><span class="tier-val">全自动:WMS/WCS/RFID<br>30台AGV+AS/RS+5G专网</span></div><div class="tier-item"><span class="tier-label">年租金</span><span class="tier-val" style="color:var(--purple);">约1.4-1.7亿</span></div><div class="tier-item"><span class="tier-label">回收期</span><span class="tier-val">约13-15年</span></div></div>
+
+      <div class="tier-card mid"><div class="tier-badge blue">品质</div><h3>中端方案</h3><div class="tier-item"><span class="tier-label">单方建安成本（不含地价）</span><span class="tier-val" style="color:var(--accent);font-size:1.35rem;">5,500-6,500<span style="font-size:.82rem;"> 元/㎡</span></span></div><div class="tier-item"><span class="tier-label">计容建面</span><span class="tier-val">22.8万㎡</span></div><div class="tier-item"><span class="tier-label">建安总投资（不含地价）</span><span class="tier-val">13-15亿</span></div><div class="tier-item"><span class="tier-label">建筑方案</span><span class="tier-val">4层盘道式 · 混凝土+钢结构</span></div><div class="tier-item"><span class="tier-label">楼板荷载</span><span class="tier-val">首4T / 其他3T</span></div><div class="tier-item"><span class="tier-label">智能化</span><span class="tier-val">半自动:WMS/RFID<br>10台AGV+IoT+AI安防</span></div><div class="tier-item"><span class="tier-label">年租金</span><span class="tier-val" style="color:var(--accent);">约1.0-1.2亿</span></div><div class="tier-item"><span class="tier-label">回收期</span><span class="tier-val">约10-12年</span></div></div>
+
+      <div class="tier-card economy"><div class="tier-badge green">实用</div><h3>经济方案</h3><div class="tier-item"><span class="tier-label">单方建安成本（不含地价）</span><span class="tier-val" style="color:var(--green);font-size:1.35rem;">4,000-5,000<span style="font-size:.82rem;"> 元/㎡</span></span></div><div class="tier-item"><span class="tier-label">计容建面</span><span class="tier-val">19.5万㎡</span></div><div class="tier-item"><span class="tier-label">建安总投资（不含地价）</span><span class="tier-val">8-10亿</span></div><div class="tier-item"><span class="tier-label">建筑方案</span><span class="tier-val">4层多层仓 · 钢结构+混凝土</span></div><div class="tier-item"><span class="tier-label">楼板荷载</span><span class="tier-val">首3T / 其他2.5T</span></div><div class="tier-item"><span class="tier-label">智能化</span><span class="tier-val">标配:WMS(基础)/RFID<br>电动叉车+ESFR消防</span></div><div class="tier-item"><span class="tier-label">年租金</span><span class="tier-val" style="color:var(--green);">约0.7-0.85亿</span></div><div class="tier-item"><span class="tier-label">回收期</span><span class="tier-val">约9-11年</span></div></div>
+
+      <div class="tier-card budget"><div class="tier-badge orange">★推荐起步</div><h3>简易低造价方案</h3><div class="tier-item"><span class="tier-label">单方建安成本（不含地价）</span><span class="tier-val" style="color:var(--orange);font-size:1.35rem;">2,000-3,000<span style="font-size:.82rem;"> 元/㎡</span></span></div><div class="tier-item"><span class="tier-label">计容建面</span><span class="tier-val">16.3万㎡</span></div><div class="tier-item"><span class="tier-label">建安总投资（不含地价）</span><span class="tier-val">4-5.5亿</span></div><div class="tier-item"><span class="tier-label">建筑方案</span><span class="tier-val">2-3层简易坡道 · 轻钢结构</span></div><div class="tier-item"><span class="tier-label">楼板荷载</span><span class="tier-val">首2.5T / 二层2T</span></div><div class="tier-item"><span class="tier-label">智能化</span><span class="tier-val">基础:云WMS/条码<br>视频监控+丙二类消防</span></div><div class="tier-item"><span class="tier-label">年租金</span><span class="tier-val" style="color:var(--orange);">约0.45-0.55亿</span></div><div class="tier-item"><span class="tier-label">回收期</span><span class="tier-val" style="color:var(--green);">约7-9年 ⚡最快</span></div></div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:32px;">
+      <strong>★ 推荐策略</strong>：一期(启动期)采用简易低造价方案(2,000-3,000元/㎡)快速建成投入运营，积累客户与现金流后，二三期根据市场反馈<strong>升级为中端方案</strong>。这一策略兼顾资金安全与品质提升，总投资可控，回报周期短。
+    </div>
+
+    <h3 style="font-size:1.25rem;color:#e8f0f8;margin:40px 0 18px;">📊 租金收入与回报测算（简易低造价起步方案）</h3>
+    <div class="table-wrap"><table><thead><tr><th>测算指标</th><th>保守情景</th><th>基准情景</th><th>乐观情景</th></tr></thead><tbody>
+      <tr><td>可出租面积</td><td>16.3万㎡</td><td>16.3万㎡</td><td>16.3万㎡</td></tr>
+      <tr><td>首年平均租金</td><td>28元/㎡·月</td><td>32元/㎡·月</td><td>36元/㎡·月</td></tr>
+      <tr><td>首年出租率</td><td>55%</td><td>65%</td><td>75%</td></tr>
+      <tr><td>第三年稳定出租率</td><td>75%</td><td>85%</td><td>90%</td></tr>
+      <tr style="background:rgba(0,212,255,0.04);"><td><strong>首年租金收入</strong></td><td><strong style="color:var(--accent);">3,012万</strong></td><td><strong style="color:var(--accent);">4,068万</strong></td><td><strong style="color:var(--accent);">5,257万</strong></td></tr>
+      <tr style="background:rgba(0,212,255,0.04);"><td><strong>稳定年租金(第5年)</strong></td><td><strong style="color:var(--accent);">4,700万</strong></td><td><strong style="color:var(--accent);">7,500万</strong></td><td><strong style="color:var(--accent);">10,200万</strong></td></tr>
+      <tr><td>运营成本率</td><td>28%</td><td>25%</td><td>22%</td></tr>
+      <tr style="background:rgba(0,212,255,0.06);"><td><strong>稳定年净收入(NOI)</strong></td><td><strong style="color:var(--accent);">3,384万</strong></td><td><strong style="color:var(--accent);">5,625万</strong></td><td><strong style="color:var(--accent);">7,956万</strong></td></tr>
+      <tr style="background:rgba(0,212,255,0.06);"><td><strong>项目估值(第5年)</strong></td><td><strong style="color:var(--accent);">6.8亿</strong></td><td><strong style="color:var(--accent);">10.2亿</strong></td><td><strong style="color:var(--accent);">13.3亿</strong></td></tr>
+      <tr style="background:rgba(240,165,0,0.06);"><td><strong>静态回收期（含地价）</strong></td><td><strong style="color:var(--gold);">11.5年</strong></td><td><strong style="color:var(--gold);">8.8年</strong></td><td><strong style="color:var(--gold);">6.8年</strong></td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- ===== SECTION 9 ===== -->
+<section class="section" id="s9">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 09</div>
+      <h2 class="section-title">非保税仓运营思路详解</h2>
+      <p class="section-subtitle">运营定位 · 业务矩阵 · 定价策略 · 招商节奏 · 退出机制</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">🎯 一、运营定位</h3>
+        <div class="card card-accent" style="margin-bottom:18px;">
+          <p style="font-size:.98rem;margin-bottom:8px;color:#e8f0f8;"><strong style="color:var(--accent);">"非保税高标仓 + 冷链仓 + 智慧供应链服务"</strong>三位一体</p>
+          <p style="font-size:.92rem;color:var(--text-secondary);">区别于综保区内保税仓，聚焦一般贸易/国内流转货物，打造盐田港后方「港口-仓库-城市配送」半小时经济圈核心节点</p>
+        </div>
+
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">👥 二、目标客群结构</h3>
+        <div style="font-size:.92rem;">
+          <div class="bar-row"><span class="bar-label" style="color:var(--accent);">35%</span><div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--accent);"></div></div><span class="bar-name">跨境电商前置仓</span></div>
+          <div class="bar-row"><span class="bar-label" style="color:var(--primary-light);">25%</span><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--primary-light);"></div></div><span class="bar-name">第三方合同物流</span></div>
+          <div class="bar-row"><span class="bar-label" style="color:var(--purple);">15%</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:var(--purple);"></div></div><span class="bar-name">港口贸易与货代</span></div>
+          <div class="bar-row"><span class="bar-label" style="color:var(--green);">10%</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--green);"></div></div><span class="bar-name">冷链生鲜/医药</span></div>
+          <div class="bar-row"><span class="bar-label" style="color:var(--orange);">10%</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--orange);"></div></div><span class="bar-name">制造业VMI</span></div>
+          <div class="bar-row"><span class="bar-label" style="color:var(--text-muted);">5%</span><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--text-muted);"></div></div><span class="bar-name">零售快消/社区团购</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">💼 三、收入结构设计</h3>
+        <div class="card card-accent" style="margin-bottom:14px;">
+          <h4 style="font-size:.98rem;color:#e8f0f8;">基础仓储服务（核心收入 65%）</h4>
+          <p style="font-size:.88rem;color:var(--text-secondary);">干仓出租按㎡·月计租 · 冷链仓溢价50-80% · 定制化分区收改造费+租金溢价 · 灵活500㎡起租</p>
+        </div>
+        <div class="card card-accent" style="margin-bottom:14px;">
+          <h4 style="font-size:.98rem;color:#e8f0f8;">增值物流服务（增收 15%）</h4>
+          <p style="font-size:.88rem;color:var(--text-secondary);">装卸搬运按吨/箱计费 · 流通加工(贴标/质检/组装) · 运输协调调度服务 · 报关协同一条龙</p>
+        </div>
+        <div class="card card-gold">
+          <h4 style="font-size:.98rem;color:#e8f0f8;">供应链衍生服务（增收 20%）</h4>
+          <p style="font-size:.88rem;color:var(--text-secondary);">供应链金融(仓单质押收0.5-1%服务费) · SaaS平台年费 · 新能源运营(充电桩+光伏) · 展示交易区</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:32px;">
+      <div>
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">📋 四、定价策略与招商节奏</h3>
+        <div class="table-wrap"><table><thead><tr><th>楼层/类型</th><th>租金(元/㎡·月)</th><th>说明</th></tr></thead><tbody>
+          <tr><td>首层</td><td style="color:var(--accent);">45-55</td><td>承载重货/快周转，租金最高</td></tr>
+          <tr><td>二层及以上</td><td style="color:var(--accent);">32-40</td><td>盘道直达使二层等同首层价值</td></tr>
+          <tr><td>恒温仓(0-4℃)</td><td style="color:var(--accent);">+50%溢价</td><td>首层租金基础加50%</td></tr>
+          <tr><td>冷藏仓(-18℃)</td><td style="color:var(--accent);">+80%溢价</td><td>首层租金基础加80%</td></tr>
+          <tr><td>长租优惠</td><td style="color:var(--green);">9-95折</td><td>3年95折/5年9折/10年85折</td></tr>
+          <tr style="background:rgba(240,165,0,0.06);"><td><strong style="color:var(--gold);">旺季短租</strong></td><td style="color:var(--gold);"><strong>+20-30%</strong></td><td>双11/黑五/年货节弹性5-8%面积</td></tr>
+        </tbody></table></div>
+      </div>
+      <div>
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">🗓️ 招商四阶段</h3>
+        <div style="font-size:.92rem;">
+          <div style="border-left:3px solid var(--accent);padding:10px 14px;margin:10px 0;background:rgba(0,212,255,0.04);border-radius:0 8px 8px 0;"><strong style="color:var(--accent);">Pre-leasing期</strong>（开工前12个月）<br>锁定头部跨境电商签LOI，目标30%预租率</div>
+          <div style="border-left:3px solid var(--primary-light);padding:10px 14px;margin:10px 0;background:rgba(147,174,212,0.04);border-radius:0 8px 8px 0;"><strong style="color:var(--primary-light);">建设期招商</strong>（施工期）<br>引入第三方物流+港口贸易商，累计签约至50%</div>
+          <div style="border-left:3px solid var(--green);padding:10px 14px;margin:10px 0;background:rgba(0,230,118,0.04);border-radius:0 8px 8px 0;"><strong style="color:var(--green);">开业爬坡期</strong>（0-12个月）<br>开业促销(首半年9折+2月免租)，出租率冲至65-75%</div>
+          <div style="border-left:3px solid var(--orange);padding:10px 14px;margin:10px 0;background:rgba(255,145,0,0.04);border-radius:0 8px 8px 0;"><strong style="color:var(--orange);">稳定运营期</strong>（12-36个月）<br>优化客户组合，淘汰低效客户，出租率稳于85-90%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:32px;">
+      <div>
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">🏢 五、运营管理架构</h3>
+        <div class="table-wrap"><table><thead><tr><th>部门</th><th>编制</th><th>职责</th></tr></thead><tbody>
+          <tr><td>园区物业部</td><td>20人</td><td>安保/保洁/绿化/设备维护——外包为主</td></tr>
+          <tr><td>仓储运营部</td><td>15人</td><td>WMS系统管理/客户对接/质量管控</td></tr>
+          <tr><td>招商与客户部</td><td>8人</td><td>招商/合同管理/续租/投诉处理</td></tr>
+          <tr><td>增值服务部</td><td>10人</td><td>供应链金融/新能源/数字平台运营</td></tr>
+          <tr><td>财务行政部</td><td>5人</td><td>收支结算/税务/人事——轻量化</td></tr>
+        </tbody></table></div>
+        <div style="margin-top:14px;">
+          <strong style="color:#e8f0f8;">关键KPI：</strong>
+          <span class="tag tag-green">出租率≥90%</span>
+          <span class="tag tag-blue">收缴率≥98%</span>
+          <span class="tag tag-purple">续租率≥80%</span>
+          <span class="tag tag-orange">增值收入占15-20%</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:1.2rem;color:#e8f0f8;margin-bottom:14px;">🚪 六、退出机制（三种路径）</h3>
+        <div class="card card-gold" style="margin-bottom:12px;"><h4 style="font-size:.98rem;color:#e8f0f8;">路径一（推荐）：公募REITs</h4><p style="font-size:.88rem;color:var(--text-secondary);">稳定运营3-5年后发行，Cap Rate 5.0-5.5%，估值约10-15亿(一期)，回收资金用于二三期滚动开发</p></div>
+        <div class="card card-accent" style="margin-bottom:12px;"><h4 style="font-size:.98rem;color:#e8f0f8;">路径二：引入战略投资者</h4><p style="font-size:.88rem;color:var(--text-secondary);">平安不动产/普洛斯/GLP，整体或51%股权转让</p></div>
+        <div class="card card-accent"><h4 style="font-size:.98rem;color:#e8f0f8;">路径三：经营性物业贷款</h4><p style="font-size:.88rem;color:var(--text-secondary);">LTV 50-60%盘活资产，长期持有+稳定分红</p></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.25rem;color:#e8f0f8;margin:40px 0 18px;">👥 目标出租对象与客户画像</h3>
+    <div class="table-wrap"><table><thead><tr><th>客户类别</th><th>代表企业</th><th>需求面积</th><th>承受力</th><th>核心需求</th><th>占比</th></tr></thead><tbody>
+      <tr><td>跨境电商平台</td><td>SHEIN/Temu/TikTok Shop/速卖通</td><td>3-5万㎡</td><td style="color:var(--accent);">40-50元</td><td style="text-align:left;">前置仓/退货处理/快周转/系统对接</td><td style="color:var(--accent);">35-40%</td></tr>
+      <tr><td>第三方物流</td><td>顺丰/京东/德邦/中外运</td><td>2-4万㎡</td><td>35-45元</td><td style="text-align:left;">分拨中转/多货主管理/定制化分区</td><td>20-25%</td></tr>
+      <tr><td>港口贸易商</td><td>盐田港货代/报关行/贸易公司</td><td>1-2万㎡</td><td>33-40元</td><td style="text-align:left;">集装箱暂存/拆拼箱/24h作业/口岸联动</td><td>10-15%</td></tr>
+      <tr><td>冷链/生鲜</td><td>进口冻品商/医药冷链/预制菜</td><td>0.5-1.5万㎡</td><td style="color:var(--green);">50-65元</td><td style="text-align:left;">温控仓储/恒温恒湿/HACCP/GSP认证</td><td>8-10%</td></tr>
+      <tr><td>制造业供应链</td><td>新能源/电子元器件/精密设备</td><td>1-3万㎡</td><td>40-50元</td><td style="text-align:left;">VMI管理/JIT配送/防静电/无尘需求</td><td>10-15%</td></tr>
+      <tr><td>零售/快消品</td><td>品牌商区域仓/社区团购平台</td><td>0.5-1.5万㎡</td><td>28-38元</td><td style="text-align:left;">区域配送/拆零拣选/旺季弹性面积</td><td>5-8%</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- ===== SECTION 10 ===== -->
+<section class="section section-alt" id="s10">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-num">SECTION 10</div>
+      <h2 class="section-title">总结与风险提示</h2>
+      <p class="section-subtitle">核心结论 + 六大风险应对</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="card card-accent">
+          <h3 style="font-size:1.25rem;color:#e8f0f8;margin-bottom:18px;">✅ 核心建议总结</h3>
+          <div style="font-size:.98rem;color:var(--text-secondary);line-height:2;">
+            <p><strong style="color:var(--accent);">【推荐策略】</strong>分期+起步低造价，稳健推进</p>
+            <p>▸ 一期采用简易低造价(<strong style="color:var(--orange);">2,000-3,000元/㎡</strong>)</p>
+            <p>▸ 快速建成16.3万㎡，总投入<strong style="color:var(--accent);">4-5.5亿</strong></p>
+            <p>▸ 静态回收期约<strong style="color:var(--green);">7-9年</strong></p>
+            <hr style="margin:14px 0;border-color:var(--border);">
+            <p>▸ <strong style="color:#e8f0f8;">仓储类型：</strong>非保税高标仓(80%)+冷链(20%)</p>
+            <p>▸ <strong style="color:#e8f0f8;">开发节奏：</strong>三期开发(6.5→5.8→5.1万㎡用地)</p>
+            <p>▸ <strong style="color:#e8f0f8;">建筑选型：</strong>2-3层简易坡道仓起步,后续可升级</p>
+            <p>▸ <strong style="color:#e8f0f8;">楼板荷载：</strong>首层2.5吨/二层2吨起步</p>
+            <p>▸ <strong style="color:#e8f0f8;">智能化：</strong>基础WMS+条码+监控+丙二类消防</p>
+            <p>▸ <strong style="color:#e8f0f8;">运营模式：</strong>基础仓储+增值物流+衍生服务</p>
+            <p>▸ <strong style="color:#e8f0f8;">目标客户：</strong>跨境电商(35%)+第三方物流(25%)</p>
+            <p>▸ <strong style="color:#e8f0f8;">退出路径：</strong>稳定运营后公募REITs/股权转让</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card card-red">
+          <h3 style="font-size:1.25rem;color:var(--red);margin-bottom:18px;">⚠️ 风险提示与应对</h3>
+          <div style="font-size:.88rem;color:var(--text-secondary);line-height:1.9;">
+            <div style="margin-bottom:12px;"><strong style="color:var(--red);">R1 市场供需风险</strong><br>2025-2026珠三角高标仓新增供应潮,竞争加剧<br><span style="color:var(--green);">→ 应对：Pre-leasing锁定30%+签约率,差异化非保税定位</span></div>
+            <div style="margin-bottom:12px;"><strong style="color:var(--red);">R2 租金下行风险</strong><br>深圳高标仓租金已连降(2025Q3:48.5元/㎡·月)<br><span style="color:var(--green);">→ 应对：低造价低成本优势+渐进升级+增值服务溢价</span></div>
+            <div style="margin-bottom:12px;"><strong style="color:var(--red);">R3 跨境电商政策风险</strong><br>中美贸易摩擦/关税调整影响跨境电商流量<br><span style="color:var(--green);">→ 应对：客户多元化(跨境电商≤40%)+一般贸易占比提升</span></div>
+            <div style="margin-bottom:12px;"><strong style="color:var(--red);">R4 建设成本超支</strong><br>建材/人工波动,山地基础处理可能增加成本<br><span style="color:var(--green);">→ 应对：EPC总价包干+5%不可预见费+分期分地块施工</span></div>
+            <div style="margin-bottom:12px;"><strong style="color:var(--red);">R5 融资利率风险</strong><br>利率上行增加财务成本<br><span style="color:var(--green);">→ 应对：固息贷款+争取深圳物流基础设施专项低息贷款</span></div>
+            <div style="margin-bottom:12px;"><strong style="color:var(--red);">R6 非保税仓政策风险</strong><br>未来若政策引导企业进保税区,非保税仓需求可能分流<br><span style="color:var(--green);">→ 应对：保持灵活可改造设计,预留保税功能升级接口</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <h3>感谢阅读</h3>
+  <div class="footer-line"></div>
+  <p style="margin-bottom:6px;">珠三角高标仓调研及盐田后方陆域建设建议</p>
+  <p style="font-size:.82rem;color:var(--text-muted);">本报告数据来源：政府公告、仲量联行、世邦魏理仕、高力国际研究报告</p>
+  <p style="font-size:.82rem;color:var(--text-muted);margin-top:8px;">报告日期：2026年06月25日</p>
+</footer>
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+});
+</script>
+</body>
+</html>
